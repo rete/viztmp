@@ -1,6 +1,7 @@
-<img src="https://travis-ci.org/DQM4HEP/dqm4hep-visualization.svg?branch=master" align="left" />
-<img src="https://scan.coverity.com/projects/15199/badge.svg" align="left" />
+<img src="https://travis-ci.org/DQM4HEP/dqm4hep-visualization.svg?branch=master" align="left" /> &nbsp;
+<img src="https://scan.coverity.com/projects/15199/badge.svg" align="left" /> &nbsp;
 <img src="https://readthedocs.org/projects/dqm4hep/badge/?version=latest" align="left" />
+</br>
 
 # DQM4HEP Visualization library, a Data Quality Monitoring framework for High Energy Physics
 
