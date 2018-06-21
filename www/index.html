@@ -1,0 +1,469 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+      <title>Test monitoring</title>
+
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      
+      <link rel="stylesheet" type="text/css" href="jsroot/style/jquery-ui.css" />
+      <link rel="stylesheet" type="text/css" href="jquery/layout-default-latest.css" />
+      <!-- <link rel="stylesheet" type="text/css" href="jquery/jquery.contextMenu.min.css" /> -->
+      <link rel="stylesheet" type="text/css" href="fancytree/dist/skin-lion/ui.fancytree.css" />
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
+      <link rel="stylesheet" href="style/dqm4hep.nav.css" />
+      <link rel="stylesheet" href="style/dqm4hep.monbrowser.css" />
+      
+      <style type="text/css">
+        * {
+          font-family: "Georgia" !important;
+        }
+        
+        .main-container {
+          /* margin-top: 140px !important; */
+        }
+        ul.fancytree-container {
+          border: none;
+        }
+        .dqm4hep-tree-view {
+          /* display: flex;
+          flex-direction: column;
+          height: 100%; */
+          /* background: white; */
+          
+        }
+        .dqm4hep-tree-view-button {
+          border-radius: 5px;
+          background-color: #f2f2f2;
+          color: black;
+          cursor: pointer;
+          padding: 18px;
+          width: 100%;
+          margin-top: 1px;
+          border: none;
+          text-align: left;
+          outline: none;
+          font-size: 15px;
+        }
+        .dqm4hep-tree-view-button-active, .dqm4hep-tree-view-button:hover {
+          background-color: #cccccc;
+        }
+        .dqm4hep-tree-view-content {
+          max-height: 0;
+          overflow: hidden;
+          transition: max-height 0.2s ease-out;
+          justify-content: space-between;
+        }
+        .dqm4hep-multiview-header {
+          color: black;
+          width: 100%;
+          /* height: 100%; */
+          margin-top: 1px;
+          border: none;
+          text-align: left;
+          font-size: 15px;
+          border-bottom: 2px solid black;
+          border-bottom-color: #4d4d4d;
+        }
+        .dqm4hep-multiview-container {
+          overflow: auto;
+        }
+        .dqm4hep-tree-view-buttons-container {
+          /* display: block; */
+          /* width: inherit; */
+          /* position: -webkit-sticky;
+          position: absolute; */
+          /* bottom: 0; */
+          background: white !important;
+          /* overflow: hidden; */
+        }
+        .layout-no-resizer {
+          border: none;
+        }
+        .layout-no-frame {
+          overflow: inherit;
+          border: none;
+          /* background: inherit; */
+        }
+        .dqm4hep-tree-view-buttons {
+        	vertical-align: center;
+        	/* min-width: 150px;*/
+        	max-width: 150px;
+          width: 45%;
+          display: inline;
+        	margin: auto;
+          margin-left: 2.5%;
+          margin-right: 2.5%;
+          /*margin-top: 5px;*/
+          /*margin-bottom: 5px;*/
+        	/* padding: 2% 2%; */
+        	/* background: none; */
+        	/* color: inherit; */
+        }
+        .dqm4hep-rc-container {
+          /* min-height: 80px; */
+          background: #ff8080;
+        }
+        .dqm4hep-rc-container h3 {
+          font-size: 30px;
+        }
+        .dqm4hep-rc-container-active, .dqm4hep-rc-container {
+          background: #9ae59a;
+        }
+        /*.dqm4hep-tree-view-buttons:focus {
+        	outline: none;
+        }
+        .dqm4hep-tree-view-buttons > span {
+        	vertical-align: bottom;
+        }
+        .dqm4hep-tree-view-buttons:hover {
+        	border-color: black;
+        	background-color: rgba(63, 81, 181, 0.1);
+        } */
+
+        /* .dqm4hep-canvas-area-container {
+          height: 100% !important;
+        } */
+
+        .canvas-view {
+          background-color: #F0F0F0;
+          width: 75%;
+        }
+        .drawing {
+          position: absolute; 
+          left:1px; 
+          top:1px; 
+          bottom:1px; 
+          right:1px
+        }
+        .canvas-widget {
+          overflow: hidden;
+        }
+        .ui-dialog .ui-dialog-titlebar {
+        	position: relative;
+          border: none;
+          background-color: #FFFFFF;
+        }
+        .ui-dialog .ui-dialog-title {
+          text-align: center;
+        }
+        #browser {
+          position: fixed;
+          display: none;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: rgba(0,0,0,0.5);
+          z-index: 4;
+          cursor: pointer;
+          overflow-y: auto;
+        }
+
+      </style>
+      
+      
+      <script type="text/javascript" src="jsroot/scripts/JSRootCore.js?2d&hist&hierarchy&onload=startDemo"></script>
+      <script type="text/javascript" src="jsroot/scripts/jquery.min.js"></script>
+      <script type="text/javascript" src="jsroot/scripts/jquery-ui.min.js"></script>
+      <!-- <script type="text/javascript" src="jquery/ui.tabs.closable.js"> </script> -->
+      <script type="text/javascript" src="jquery/jquery.layout-1.3.0.js"></script>
+      <script type="text/javascript" src="fancytree/dist/jquery.fancytree-all-deps.min.js"></script>
+      <script type="text/javascript" src="jquery/jquery.ui-contextmenu.min.js"></script>      
+      <script type="text/javascript" src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+      <script type="text/javascript" src="scripts/dqm4hep-monitoring.js"></script>
+      
+      <script type="text/javascript">
+      
+        function closeBrowser() {
+          document.getElementById("browser").style.display = "none";
+        }
+        
+        function openBrowser() {
+          document.getElementById("browser").style.display = "block";
+        }
+        function startDemo() {
+          console.log("startDemo !");
+          // var mainContainer = document.createElement("div");
+          // mainContainer.id = 'main-container';
+          //
+          var mainContainer = document.body;
+          mainContainer.classList.add('main-container');
+          
+          var browserParent = document.getElementById("browser");
+          $(browserParent).on('click', function(evt) {
+            if(evt.target !== this) {
+              return;
+            }
+            closeBrowser();
+            // evt.stopPropagation();
+          });
+          
+          var browser = new Browser(browserParent);
+            
+          // the tree view - left panel
+          var treeView = document.createElement("div");
+          treeView.classList.add("ui-layout-west");
+          treeView.classList.add("dqm4hep-tree-view");
+          mainContainer.appendChild(treeView);
+
+          // the canvas view - center panel
+          var canvasView = document.createElement("div");
+          canvasView.classList.add("ui-layout-center");
+          canvasView.classList.add("canvas-view");
+          mainContainer.appendChild(canvasView);
+          
+          var multiCanvasView = new MultiCanvasView(canvasView);        
+          
+          // collector tree view - left panel
+          var collectorViewDiv = document.createElement("div");
+          collectorViewDiv.classList.add("ui-layout-center");
+          treeView.appendChild(collectorViewDiv);
+          
+          // buttons - left panel
+          var buttonsContainer = document.createElement("div");
+          buttonsContainer.classList.add("ui-layout-south");
+          var clearButton = document.createElement("button");
+          clearButton.classList.add("dqm4hep-tree-view-buttons");
+          clearButton.innerHTML = "Clear";
+          clearButton.addEventListener('click', function(button) {
+            collectorView.clear();
+          });
+          buttonsContainer.appendChild(clearButton);
+          var browseButton = document.createElement("button");
+          browseButton.classList.add("dqm4hep-tree-view-buttons");
+          browseButton.innerHTML = "Browse";
+          browseButton.addEventListener('click', function(button) {
+            openBrowser();
+          });
+          buttonsContainer.appendChild(browseButton);
+          treeView.appendChild(buttonsContainer);
+          
+          mainContainer.appendChild(canvasView);
+          
+          $(mainContainer).layout({
+            west__size: .25,
+            west__childOptions: {
+              south__resizable: false,
+              south__closable: false,
+              south__resizerClass: "layout-no-resizer",
+              south__paneClass: "layout-no-frame"
+              // center__paneClass: "layout-no-frame"
+            }
+          });
+          // document.body.appendChild(mainContainer);
+          
+          
+          multiCanvasView.createCanvasArea();
+          
+          var collectorView = new MultiCollectorTreeView({
+            element: collectorViewDiv,
+            elementDblClick: function(event, ui) {
+              console.log("Draw me !! (" + ui.element.name + ")");
+              console.log(ui.element);
+              var canvasArea;
+              if(multiCanvasView.nCanvasAreas() == 0) {
+                canvasArea = multiCanvasView.createCanvasArea();
+              }
+              else {
+                canvasArea = multiCanvasView.currentCanvasArea();
+              }
+              canvasArea.draw(ui.element);
+            },
+            updateRequested: function(event, ui) {
+              console.log("Update request for node " + ui.element.name);
+            },
+            drawRequested: function(event, ui) {
+              var str = ui.current ? "current" : "new";
+              console.log("Draw request for node " + ui.element.name + " in " + str + " canvas");
+              console.log(ui.element);
+              var canvasArea;
+              if(multiCanvasView.nCanvasAreas() == 0) {
+                canvasArea = multiCanvasView.createCanvasArea();
+              }
+              else if(ui.current) {
+                canvasArea = multiCanvasView.currentCanvasArea();
+              }
+              else {
+                canvasArea = multiCanvasView.createCanvasArea();
+              }
+              canvasArea.draw(ui.element);
+            }
+          });
+          
+          var temperature = {
+            name: "Temperature",
+            path: "/Sensors",
+            module: "SlowControl",
+            collector: "CentralCollector"
+          };
+          var pressure = {
+            name: "Pressure",
+            path: "/Sensors",
+            module: "SlowControl",
+            collector: "CentralCollector"
+          };
+          
+          var rate = {
+            name: "Rate",
+            path: "/",
+            module: "BeamAnalysis",
+            collector: "CentralCollector"
+          };
+          var particleSpecies = {
+            name: "Particles",
+            path: "/",
+            module: "BeamAnalysis",
+            collector: "CentralCollector"
+          };
+          
+          var histo1 = JSROOT.CreateTH1(80,0,100);
+          histo1.fName = "histo1";
+          histo1.fTitle = "A test histogram (1)";
+          histo1.Fill(0, 10);
+          histo1.Fill(15, 10);
+          
+          var anotherElement = {
+            rootObject: histo1,
+            name: "Test",
+            path: "/",
+            module: "ExampleModule",
+            collector: "TestCollector",
+            description: "Pouette pouette cacahuette this is a long description that takes to much space for a tooltip. What should we do ?"
+          };
+          
+          collectorView.addElement(temperature);
+          collectorView.addElement(pressure);
+          collectorView.addElement(rate);
+          collectorView.addElement(particleSpecies);
+          collectorView.addElement(anotherElement);
+          
+
+          var active1 = false;
+          var active2 = false;
+          var active3 = false;
+          var active4 = false;
+
+          $('.dqm4hep-nav').on('mousedown touchstart', function() {
+            
+            if (!active1) {
+              $(this).find('.dqm4hep-nav-home').css({'background-color': 'gray', 'transform': 'translate(0px,125px)'});
+            }
+            else {
+              $(this).find('.dqm4hep-nav-home').css({'background-color': 'dimGray', 'transform': 'none'});
+            }
+            if (!active2) {
+              $(this).find('.dqm4hep-nav-monitoring').css({'background-color': 'gray', 'transform': 'translate(60px,105px)'});
+            }
+            else {
+              $(this).find('.dqm4hep-nav-monitoring').css({'background-color': 'darkGray', 'transform': 'none'});
+            }
+            if (!active3) {
+              $(this).find('.dqm4hep-nav-control').css({'background-color': 'gray', 'transform': 'translate(105px,60px)'});  
+            }
+            else {  
+              $(this).find('.dqm4hep-nav-control').css({'background-color': 'silver', 'transform': 'none'});
+            }
+            if (!active4) {
+              $(this).find('.dqm4hep-nav-appmon').css({'background-color': 'gray', 'transform': 'translate(125px,0px)'});
+            }
+            else {
+              $(this).find('.dqm4hep-nav-appmon').css({'background-color': 'silver', 'transform': 'none'});
+            }
+            active1 = !active1;
+            active2 = !active2;
+            active3 = !active3;
+            active4 = !active4;
+          });
+          
+
+          // var histo1Frame = document.createElement("div");
+          // // histo1Frame.classList.add("root-canvas");
+          // canvasView.appendChild(histo1Frame);
+          // var histo2Frame = document.createElement("div");
+          // // histo2Frame.classList.add("root-canvas");          
+          // canvasView.appendChild(histo2Frame);
+          
+          // var histo1 = JSROOT.CreateTH1(80,0,100);
+          // histo1.fName = "histo1";
+          // histo1.fTitle = "A test histogram (1)";
+          // histo1.Fill(0, 10);
+          // histo1.Fill(15, 10);
+          // var histo2 = JSROOT.CreateTH1(80,0,100);
+          // histo2.fName = "histo2";
+          // histo2.fTitle = "A test histogram (2)";
+          // histo2.Fill(0, 10);
+          // histo2.Fill(15, 10);
+          // histo2.Fill(0, 10);
+          // histo2.Fill(15, 10);
+          // histo2.Fill(5, 10);
+          // histo2.Fill(15, 10);
+          
+
+          // JSROOT.redraw(histo1Frame, histo1, "");
+          // JSROOT.RegisterForResize(histo1Frame);
+          // 
+          // JSROOT.redraw(histo2Frame, histo2, "");
+          // JSROOT.RegisterForResize(histo2Frame);
+          
+          
+          // $(histo1Frame).dialog({
+          //   // title: histo1.fTitle,
+          //   width: histo1Frame.parentElement.clientWidth/2.0,
+          //   height: histo1Frame.parentElement.clientWidth/3.0,
+          //   position: {my: "left top", at: "left top", of: canvasView},
+          //   resize: function(event, ui) {
+          //     JSROOT.resize(histo1Frame, {width: ui.size.width, height: ui.size.height});
+          //   },
+          //   appendTo: canvasView
+          // });
+          // 
+          // $(histo2Frame).dialog({
+          //   // title: histo2.fTitle,
+          //   position: {my: "left top", at: "right top", of: $(histo1Frame).dialog( "widget" )},
+          //   width: histo2Frame.parentElement.clientWidth/2.0,
+          //   height: histo2Frame.parentElement.clientWidth/3.0,
+          //   resize: function(event, ui) {
+          //     JSROOT.resize(histo2Frame, {width: ui.size.width, height: ui.size.height});
+          //   },
+          //   appendTo: canvasView
+          // });
+          // 
+          // JSROOT.resize(histo1Frame, true);
+          // JSROOT.resize(histo2Frame, true);
+          
+          // $(".ui-dialog-titlebar").hide();
+          
+          // histo2.FillRandom("gaus", 1000);
+
+          // JSROOT.RegisterForResize(rootCanvas2);
+          
+          
+
+          
+          // canvasView
+          
+        };
+      </script>
+      
+      <!-- <script>
+      $(document).ready(function() {
+
+
+      });
+      </script> -->
+  </head>
+  <body>
+    <div id="browser"></div>
+    <!-- <div class="dqm4hep-nav">
+      <div class="dqm4hep-nav-home"><i class="fa fa-user fa-2x"></i></div>
+      <div class="dqm4hep-nav-monitoring"><i class="fa fa-graduation-cap fa-2x"></i></div>
+      <div class="dqm4hep-nav-control"><i class="fa fa-code fa-2x"></i></div>
+      <div class="dqm4hep-nav-appmon"><i class="fa fa-envelope-o fa-2x"></i></div>
+      <div class="dqm4hep-nav-main"><i class="fa fa-home fa-3x"></i></div>
+    </div> -->
+    <!-- <div id="main-container" /> -->
+  </body>
+</html>

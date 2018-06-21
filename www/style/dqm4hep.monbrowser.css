@@ -1,0 +1,124 @@
+
+/* --------------------- global container ----------------------- */
+.dqm4hep-browser-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  left: 80px;
+  right: 80px;
+  top: 80px;
+  height: 700px;
+  background-color: white;
+  min-height: 300px;
+  z-index: 5;
+  border: 2px solid Gray;
+  border-radius: 5px;
+}
+
+.dqm4hep-browser-container fieldset {
+  border: 1px solid Gainsboro;
+  background: GhostWhite;
+  border-radius: 2px;
+  margin: 10px 10px 10px 10px;
+  padding: 20px 10px;
+}
+
+/* --------------------- connect area on top ----------------------- */
+.dqm4hep-browser-connect {
+  flex: none;
+  position: relative;
+}
+
+.dqm4hep-browser-connect p {
+  display: inline;
+  padding-left: 10px;
+}
+
+.dqm4hep-browser-connect input {
+  display: inline;
+}
+
+.dqm4hep-browser-connect button {
+  float: right;
+  display: inline;
+}
+
+
+
+
+
+/* --------------------- datatable ----------------------- */
+
+.dqm4hep-datatable-filter {
+  display: block;
+  box-sizing : border-box;
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.dqm4hep-datatable {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid Gainsboro;
+  border-radius: 2px
+  height: 400px;
+  background-color: white;
+}
+
+.dqm4hep-datatable td {
+  border-collapse: collapse;
+  width: 33.33%; /* to enable "word-break: break-all" */
+  padding: 5px;
+  word-break: break-all; /* 4. */
+  text-align: left;
+  border-bottom: none;
+  border-left: none;
+}
+
+.dqm4hep-datatable thead {
+  -webkit-user-select: none;  /* Chrome all / Safari all */
+  -moz-user-select: none;     /* Firefox all */
+  -ms-user-select: none;      /* IE 10+ */
+  user-select: none;          /* Likely future */ 
+  display: table; /* to take the same width as tr */
+  width: calc(100%); /* -17px because of the scrollbar width */
+  background-color: #f2f2f2;
+}
+
+.dqm4hep-datatable thead td {
+  border-bottom: 2px solid Gainsboro;
+}
+
+.dqm4hep-datatable tbody {
+  display: block; /* to enable vertical scrolling */
+  height: 400px; /* e.g. */
+  overflow-y: scroll;
+  -webkit-user-select: none;  /* Chrome all / Safari all */
+  -moz-user-select: none;     /* Firefox all */
+  -ms-user-select: none;      /* IE 10+ */
+  user-select: none;          /* Likely future */ 
+}
+
+.dqm4hep-datatable tr {
+  display: table; /* display purpose; th's border */
+  width: 100%;
+}
+
+
+.dqm4hep-datatable tbody tr:hover {
+  background-color: gray;
+}
+
+
+/* --------------------- button area at bottom ----------------------- */
+.dqm4hep-browser-buttons {
+  margin: 10px 0px 0px 0px;
+  display: flex;
+  justify-content: center;
+}
+
+.dqm4hep-browser-buttons button {
+  min-width: 100px;
+  margin: 0px 40px 0px 40px;
+  /* height: auto; */
+}

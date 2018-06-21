@@ -1,0 +1,139 @@
+
+/* --------------------- global container ----------------------- */
+.dqm4hep-browser-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  left: 80px;
+  right: 80px;
+  top: 80px;
+  bottom: 80px;
+  background-color: white;
+  min-height: 300px;
+  z-index: 5;
+  border: 2px solid Gray;
+  border-radius: 5px;
+}
+
+.dqm4hep-browser-container fieldset {
+  border: 1px solid Gainsboro;
+  background: GhostWhite;
+  border-radius: 2px;
+  margin: 10px 10px 10px 10px;
+  padding: 20px 10px;
+}
+
+/* --------------------- connect area on top ----------------------- */
+.dqm4hep-browser-connect {
+  flex: none;
+  height: 40px;
+}
+
+.dqm4hep-browser-connect p {
+  display: inline;
+  padding-left: 10px;
+}
+
+.dqm4hep-browser-connect input {
+  display: inline;
+}
+
+.dqm4hep-browser-connect button {
+  float: right;
+  display: inline;
+}
+
+
+
+
+
+/* --------------------- datatable ----------------------- */
+.dqm4hep-browser-table {
+  /* flex: 10;
+  flex-shrink: 0; */
+  /* width:100%; */
+}
+
+
+.dqm4hep-datatable-filter {
+  display: block;
+  box-sizing : border-box;
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.dqm4hep-datatable {
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  border: 1px solid Gainsboro;
+  padding: 5px;
+  border-collapse: collapse;
+  table-layout: fixed;
+  white-space: nowrap;
+}
+
+.dqm4hep-datatable td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dqm4hep-datatable thead {
+  width: 100%;
+  height: 30px;
+  border-bottom: 1px solid Gainsboro;
+  white-space: nowrap;
+  text-align: left;
+  background-color: #f2f2f2;
+  -webkit-user-select: none;  /* Chrome all / Safari all */
+  -moz-user-select: none;     /* Firefox all */
+  -ms-user-select: none;      /* IE 10+ */
+  user-select: none;          /* Likely future */ 
+}
+
+
+.dqm4hep-datatable thead td {
+  border-bottom: 2px solid Gainsboro;
+  user-select: none;
+}
+
+
+.dqm4hep-datatable tbody {
+  /* width: 100%; */
+  /* display: block; */
+  overflow-y: auto;
+  -webkit-user-select: none;  /* Chrome all / Safari all */
+  -moz-user-select: none;     /* Firefox all */
+  -ms-user-select: none;      /* IE 10+ */
+  user-select: none;          /* Likely future */     
+}
+
+.dqm4hep-datatable tbody tr {
+  /* display: block;
+  width: 100%; */
+}
+
+.dqm4hep-datatable tbody tr td {
+  border-bottom: 2px solid Gainsboro  ;
+  margin: 0;
+}
+
+.dqm4hep-datatable tbody tr:hover {
+  background-color: gray;
+}
+
+
+/* --------------------- button area at bottom ----------------------- */
+.dqm4hep-browser-buttons {
+  min-height: 40px;
+  margin: 10px 0px 0px 0px;
+  display: flex;
+  justify-content: center;
+}
+
+.dqm4hep-browser-buttons button {
+  min-width: 100px;
+  margin: 0px 40px 0px 40px;
+  height: auto;
+}
